@@ -47,7 +47,7 @@ namespace zzalloc{
         FreeListNode* to_return = *cur_freelist;
         *cur_freelist = (*cur_freelist)->next;
         to_return->next = nullptr;
-        totaluseage.fetch_add(objsize, std::memory_order_relaxed);
+        totaluseage.fetch_add(AlignmentHelper(objsize), std::memory_order_relaxed);
         return to_return; 
     }
 
@@ -68,7 +68,7 @@ namespace zzalloc{
                 p->next = *cur_freelist;
                 (*cur_freelist) = p;
             }
-            totaluseage.fetch_sub(objsize, std::memory_order_relaxed);
+            totaluseage.fetch_sub(AlignmentHelper(objsize), std::memory_order_relaxed);
         }
     }
 
@@ -120,7 +120,7 @@ namespace zzalloc{
         //enough space in pool: locate blocknum blocks
         char* toreturn = pool_start;
         pool_start += totalSize;
-        totaluseage.fetch_add(totalSize, std::memory_order_relaxed);
+        // totaluseage.fetch_add(totalSize, std::memory_order_relaxed);
 
         //update freelist
         FreeListNode** cur_freelist = FreeLists + LocateFreeList(blksize);

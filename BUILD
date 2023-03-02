@@ -1,5 +1,6 @@
 #bazel test --test_output=all //:alloc_test --verbose_failures --cxxopt=-std=c++17
 #bazel build alloc --cxxopt=-std=c++17
+#bazel build main  --cxxopt=-std=c++17 --compilation_mode=dbg -s
 #bazel build main  
 
 #./bazel-bin/main

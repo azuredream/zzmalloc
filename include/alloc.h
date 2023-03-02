@@ -40,11 +40,13 @@ union FreeListNode{
 
 class SimpleFreeListAllocator final {
     public:
-    SimpleFreeListAllocator() = default;
+    SimpleFreeListAllocator(){totaluseage = 0;}//Or gtest would set a random number.
     ~SimpleFreeListAllocator();
     void* Allocate(int32_t objsize); //unsigned int causes problems in calculation
     void  Deallocate(void* addr, int32_t objsize);
-    uint32_t getTotalUsage(); //unsigned int is for memory represent.
+    uint32_t getTotalUsage() const {
+        return totaluseage.load(std::memory_order_relaxed);
+    } //unsigned int is for memory represent.
 
     private:
     //pool
