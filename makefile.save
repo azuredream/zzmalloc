@@ -1,9 +1,0 @@
-main : main.o
-    cc -o main main.o
-
-main.o : main.cc alloc.cc alloc.h
-    cc -c hello.cq
-
-
-clean : 
-    rm main.o
